@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.LinkedList;
 
 public class BasinClassification {
 
@@ -43,21 +44,27 @@ public class BasinClassification {
 
     public static void check_basins(Double[][] terrain2D){
 
+        LinkedList<int[]> basins = new LinkedList<>();
         for (int i = 0; i < terrain2D.length; i++) {
             for (int j = 0; j < terrain2D.length; j++) {
 
-                check_neighbours(terrain2D, i, j);
+                int[] basin = check_neighbours(terrain2D, i, j);
+                if (basin != null) {
+                    basins.add(basin);
+                }
                 //TODO Index out of bounds error handling
             }
         }
+        System.out.println(basins.size()); //Number of found basins
     }
 
-    public static void check_neighbours(Double[][] terrain2D, int i ,int j){
+    public static int[] check_neighbours(Double[][] terrain2D, int i ,int j){
         Double offset = terrain2D[i][j]+ 0.01;
-        if ( terrain2D[i][j+1] >offset){
-
+        if ( terrain2D[i][j+1] > offset && terrain2D[i][j-1] > offset && terrain2D[i+1][j] > offset && terrain2D[i-1][j] > offset){
+            int[] basin = {i, j}; //basin row, column
+            return basin;
         }
-
+        else return null;
 
     }
 }
