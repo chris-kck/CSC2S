@@ -5,7 +5,7 @@ public class BasinClassification {
 
     public static void main (String[] args) {
         String line;
-        int lineNo = 0,numrows=0;
+        int lineNo = 0,numrows=0,numcolumns=0;
 
 
         try {
@@ -17,25 +17,27 @@ public class BasinClassification {
                 if (0 == lineNo) {
                     //get grid row x col size
                     numrows = Integer.parseInt(line.split(" ")[0]);
+                    numcolumns = Integer.parseInt(line.split(" ")[1]);
                     
                 }
-                Double[][] terrain2D = new Double[numrows][numrows];
+                Double[][] terrain2D = new Double[numrows][numcolumns];
                 if (1 == lineNo) {
                     //rows and columns data, generate 2D array
                     String[] temp = line.split(" ");
-
+                    int k=0;
                     for (int i = 0; i < numrows; i++) {
-                        for (int j = 0; j < numrows; j++) {
-                            terrain2D[i][j]= Double.parseDouble(temp[i+j]);
+                        for (int j = 0; j < numcolumns; j++) {
+                            terrain2D[i][j]= Double.parseDouble(temp[k++]);
 
                         }
                     }
-
+                    check_basins(terrain2D);
                 }
                 lineNo++;
                 //checks and prints/generates required output
-                check_basins(terrain2D);
+
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,23 +50,35 @@ public class BasinClassification {
         for (int i = 0; i < terrain2D.length; i++) {
             for (int j = 0; j < terrain2D.length; j++) {
 
-                int[] basin = check_neighbours(terrain2D, i, j);
-                if (basin != null) {
-                    basins.add(basin);
+                int[] coordinate = check_neighbours(terrain2D, i, j);
+                if (coordinate != null) {
+                    basins.add(coordinate);
                 }
                 //TODO Index out of bounds error handling
             }
         }
         System.out.println(basins.size()); //Number of found basins
+        for(int[] basin: basins ){
+            System.out.print(basin[0]);
+            System.out.println(basin[1]);
+        }
     }
 
     public static int[] check_neighbours(Double[][] terrain2D, int i ,int j){
         Double offset = terrain2D[i][j]+ 0.01;
-        if ( terrain2D[i][j+1] > offset && terrain2D[i][j-1] > offset && terrain2D[i+1][j] > offset && terrain2D[i-1][j] > offset){
-            int[] basin = {i, j}; //basin row, column
-            return basin;
+
+        try {
+            if (terrain2D[i][j + 1] > offset && terrain2D[i][j - 1] > offset && terrain2D[i + 1][j] > offset && terrain2D[i - 1][j] > offset &&
+            terrain2D[i-1][j + 1] > offset && terrain2D[i-1][j - 1] > offset && terrain2D[i + 1][j+1] > offset && terrain2D[i+1][j-1] > offset) {
+                return new int[]{i, j};
+            }
+            else return null;
         }
-        else return null;
+        catch(ArrayIndexOutOfBoundsException e) {
+            return null; // i.e edge
+            //e.printStackTrace();
+        }
+
 
     }
 }
