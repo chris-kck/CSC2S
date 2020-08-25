@@ -20,14 +20,14 @@ public class BasinClassification {
                     numcolumns = Integer.parseInt(line.split(" ")[1]);
                     
                 }
-                Double[][] terrain2D = new Double[numrows][numcolumns];
+                Float[][] terrain2D = new Float[numrows][numcolumns];
                 if (1 == lineNo) {
-                    //rows and columns data, generate 2D array
+                    //rows and columns data, generate 2D array O(n^2) :(
                     String[] temp = line.split(" ");
                     int k=0;
                     for (int i = 0; i < numrows; i++) {
                         for (int j = 0; j < numcolumns; j++) {
-                            terrain2D[i][j]= Double.parseDouble(temp[k++]);
+                            terrain2D[i][j]= Float.parseFloat(temp[k++]);
 
                         }
                     }
@@ -44,9 +44,10 @@ public class BasinClassification {
         }
     }
 
-    public static void check_basins(Double[][] terrain2D){
+    public static void check_basins(Float[][] terrain2D){
 
         LinkedList<int[]> basins = new LinkedList<>();
+        //skip checking edge top, bottom, left, right coordinates.
         for (int i = 0; i < terrain2D.length; i++) {
             for (int j = 0; j < terrain2D.length; j++) {
 
@@ -64,12 +65,13 @@ public class BasinClassification {
         }
     }
 
-    public static int[] check_neighbours(Double[][] terrain2D, int i ,int j){
-        Double offset = terrain2D[i][j]+ 0.01;
+    public static int[] check_neighbours(Float[][] terrain2D, int i ,int j){
+        Float offset = terrain2D[i][j]+ 0.01f;
 
         try {
-            if (terrain2D[i][j + 1] > offset && terrain2D[i][j - 1] > offset && terrain2D[i + 1][j] > offset && terrain2D[i - 1][j] > offset &&
-            terrain2D[i-1][j + 1] > offset && terrain2D[i-1][j - 1] > offset && terrain2D[i + 1][j+1] > offset && terrain2D[i+1][j-1] > offset) {
+            if (terrain2D[i][j + 1] >= offset && terrain2D[i][j - 1] >= offset && terrain2D[i + 1][j] >= offset && terrain2D[i - 1][j] >= offset &&
+            terrain2D[i-1][j + 1] >= offset && terrain2D[i-1][j - 1] >= offset && terrain2D[i + 1][j+1] >= offset && terrain2D[i+1][j-1] >= offset) {
+             //everything surrounding ij is above offset return.
                 return new int[]{i, j};
             }
             else return null;
