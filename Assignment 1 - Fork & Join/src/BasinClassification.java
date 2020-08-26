@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class BasinClassification {
     static int noBasins =0;
@@ -14,6 +15,7 @@ public class BasinClassification {
             System.out.println(args[0]);//print filename
 
             Scanner scanner = new Scanner(new File("./src/"+args[0]));
+            scanner.useLocale(Locale.ENGLISH);
             numrows = scanner.nextInt();
             numcolumns = scanner.nextInt();
             terrain2D = new Float[numrows][numcolumns];
