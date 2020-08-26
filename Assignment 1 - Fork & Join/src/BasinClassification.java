@@ -51,14 +51,19 @@ public class BasinClassification {
 
     public static void main(String[] args){
         formulateArray(args); //creates array from data
-        t0 = System.currentTimeMillis();
-        check_basins(terrain2D); //checks and prints/generates required output
+        for (int i = 0; i < 100; i++) {
+            check_basins(terrain2D); //checks and prints/generates required output
+        }
+        //TODO output results to file in aguments of main
+
     }
 
     public static void check_basins(Float[][] terrain2D){
 
         LinkedList<int[]> basins = new LinkedList<>();
         //skip checking edge top, bottom, left, right coordinates.
+        System.gc();
+        t0 = System.currentTimeMillis();
         for (int i = 0; i < terrain2D.length; i++) {
             for (int j = 0; j < terrain2D.length; j++) {
 
@@ -70,11 +75,12 @@ public class BasinClassification {
         }
         t1=System.currentTimeMillis();
 
-        System.out.println(basins.size()); //Number of found basins
-        for(int[] basin: basins ){
-            System.out.print(basin[0]);
-            System.out.println(basin[1]);
-        }
+        //System.out.println(basins.size()); //Number of found basins
+        //for(int[] basin: basins ){
+        //    System.out.print(basin[0]);
+         //   System.out.println(basin[1]);
+        //}
+
         System.out.println( t1-t0 );
     }
 

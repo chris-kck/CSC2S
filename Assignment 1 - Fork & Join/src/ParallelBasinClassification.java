@@ -6,8 +6,9 @@ public class ParallelBasinClassification extends RecursiveAction {
 
     int lo;
     int hi;
-    Float[][] terrain2D; // arguments
-    static final int SEQUENTIAL_CUTOFF = 100;
+    Float[][] terrain2D;
+    static final int SEQUENTIAL_CUTOFF = 128;
+    static long t0,t1; //Timing constants
 
     ParallelBasinClassification(Float[][] terrain2D, int lo, int hi) {
         this.lo = lo;
@@ -43,13 +44,17 @@ public class ParallelBasinClassification extends RecursiveAction {
 
         ForkJoinPool pool = new ForkJoinPool();
         ParallelBasinClassification task = new ParallelBasinClassification(ogTerrain2D, 0, (ogTerrain2D.length-1));
+        System.gc();
+        t0=System.currentTimeMillis();
         pool.invoke(task);
+        t1=System.currentTimeMillis();
         //ForkJoinPool.commonPool().invoke(task);
         System.out.println(BasinClassification.parallelBasins.size());
         for(int[] basin: BasinClassification.parallelBasins ){
             System.out.print(basin[0]);
             System.out.println(basin[1]);
         }
+        System.out.println(t1-t0);
     }
 
 }
