@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class BasinClassification {
@@ -10,11 +9,7 @@ public class BasinClassification {
     static long t0,t1; //Timing constants
 
     public static Float[][] formulateArray (String[] args) {
-        String line;
         int numrows,numcolumns;
-
-
-
         try {
             System.out.println(args[0]);//print filename
 
@@ -40,26 +35,26 @@ public class BasinClassification {
         return terrain2D;
     }
 
-
     public static void main(String[] args){
         formulateArray(args); //creates array from data
         for (int i = 0; i < 1; i++) {
             check_basins(terrain2D); //checks and prints/generates required output
+            System.out.println((t1-t0)/1000000.0 );
         }
-        //TODO output results to file in aguments of main
+        //TODO output results to file in arguments of main
 
-        System.out.println(t1-t0 );
+        //System.out.println(t1-t0 );
         //Write to output file
         try {
             FileWriter myWriter = new FileWriter(args[1]);//use args[1]
 
-            System.out.println(noBasins);
+            //System.out.println(noBasins);
             myWriter.write(noBasins+"\n");
 
             for (int i = 0; i < sequentialBasins.length; i++) {
                 for (int j = 0; j < sequentialBasins[i].length; j++) {
                     if(sequentialBasins[i][j]) {
-                        System.out.println(i+" "+j);
+                        //System.out.println(i+" "+j);
                         myWriter.write(i+" "+j+"\n");
                     }
                 }
@@ -72,11 +67,9 @@ public class BasinClassification {
     }
 
     public static void check_basins(Float[][] terrain2D){
-
-        LinkedList<int[]> basins = new LinkedList<>();
         //skip checking edge top, bottom, left, right coordinates.
         System.gc();
-        t0 = System.currentTimeMillis();
+        t0 = System.nanoTime(); //currentTimeMillis();
         for (int i = 0; i < terrain2D.length; i++) {
             for (int j = 0; j < terrain2D.length; j++) {
 
@@ -88,7 +81,7 @@ public class BasinClassification {
                 }
             }
         }
-        t1=System.currentTimeMillis();
+        t1=System.nanoTime(); //currentTimeMillis();
     }
 
     public static boolean check_neighbours(Float[][] terrain2D, int i ,int j){
