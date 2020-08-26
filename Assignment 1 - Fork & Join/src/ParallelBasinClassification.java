@@ -8,7 +8,7 @@ public class ParallelBasinClassification extends RecursiveAction {
     int lo;
     int hi;
     Float[][] terrain2D;
-    static final int SEQUENTIAL_CUTOFF = 512;
+    static final int SEQUENTIAL_CUTOFF = 256;
     static long t0,t1; //Timing constants
 
     ParallelBasinClassification(Float[][] terrain2D, int lo, int hi) {
@@ -43,27 +43,28 @@ public class ParallelBasinClassification extends RecursiveAction {
     public static void main(String[] args) { //Entry point?
         Float[][] ogTerrain2D = BasinClassification.formulateArray(args);
         ForkJoinPool pool = new ForkJoinPool();
-        ParallelBasinClassification task = new ParallelBasinClassification(ogTerrain2D, 0, (ogTerrain2D.length-1));
+        for (int i = 0; i < 50; i++) {
+            ParallelBasinClassification task = new ParallelBasinClassification(ogTerrain2D, 0, (ogTerrain2D.length - 1));
+            System.gc();
+            t0 = System.nanoTime();// currentTimeMillis();
+            pool.invoke(task);
+            t1 = System.nanoTime(); //currentTimeMillis();
+            System.out.println((t1 - t0)/1000000.0);
+        }
 
-        System.gc();
-        t0=System.currentTimeMillis();
-        pool.invoke(task);
-        t1=System.currentTimeMillis();
-
-        //ForkJoinPool.commonPool().invoke(task);
-        System.out.println(BasinClassification.noBasins);
-        System.out.println(t1-t0);
-        //Write to output file
+            //ForkJoinPool.commonPool().invoke(task);
+            //System.out.println(BasinClassification.noBasins);
+            //Write to output file
         try {
             FileWriter myWriter = new FileWriter(args[1]);//use args[1]
 
-            System.out.println(BasinClassification.noBasins);
+            //System.out.println(BasinClassification.noBasins);
             myWriter.write(BasinClassification.noBasins+"\n");
 
             for (int i = 0; i < BasinClassification.sequentialBasins.length; i++) {
                 for (int j = 0; j < BasinClassification.parallelBasins[i].length; j++) {
                     if(BasinClassification.parallelBasins[i][j]) {
-                        System.out.println(i+" "+j);
+                        //System.out.println(i+" "+j);
                         myWriter.write(i+" "+j+"\n");
                     }
                 }
