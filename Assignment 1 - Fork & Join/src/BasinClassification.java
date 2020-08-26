@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.LinkedList;
 
 public class BasinClassification {
+    static int j =0;
 
     public static void main (String[] args) {
         String line;
