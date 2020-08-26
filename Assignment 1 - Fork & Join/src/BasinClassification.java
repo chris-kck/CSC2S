@@ -5,10 +5,12 @@ public class BasinClassification {
     static int j =0;
     static Float[][] terrain2D;
     static LinkedList<int[]> parallelBasins = new LinkedList<>();
+    static long t0,t1; //System.currentTimeMillis(); //Timing constants
 
     public static Float[][] formulateArray (String[] args) {
         String line;
         int lineNo = 0,numrows=0,numcolumns=0;
+
 
 
         try {
@@ -49,6 +51,7 @@ public class BasinClassification {
 
     public static void main(String[] args){
         formulateArray(args); //creates array from data
+        t0 = System.currentTimeMillis();
         check_basins(terrain2D); //checks and prints/generates required output
     }
 
@@ -63,14 +66,16 @@ public class BasinClassification {
                 if (coordinate != null) {
                     basins.add(coordinate);
                 }
-                //TODO Index out of bounds error handling
             }
         }
+        t1=System.currentTimeMillis();
+
         System.out.println(basins.size()); //Number of found basins
         for(int[] basin: basins ){
             System.out.print(basin[0]);
             System.out.println(basin[1]);
         }
+        System.out.println( t1-t0 );
     }
 
     public static int[] check_neighbours(Float[][] terrain2D, int i ,int j){
