@@ -37,15 +37,12 @@ public class BasinClassification {
 
     public static void main(String[] args){
         formulateArray(args); //creates array from data
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 50; i++) {
             check_basins(terrain2D); //checks and prints/generates required output
             System.out.println((t1-t0)/1000000.0 );
         }
-        //TODO output results to file in arguments of main
-
-        //System.out.println(t1-t0 );
-        //Write to output file
         try {
+            //Write to output file
             FileWriter myWriter = new FileWriter(args[1]);//use args[1]
 
             //System.out.println(noBasins);
@@ -85,9 +82,9 @@ public class BasinClassification {
     }
 
     public static boolean check_neighbours(Float[][] terrain2D, int i ,int j){
-        Float offset = terrain2D[i][j]+ 0.01f;
 
         try {
+            Float offset = terrain2D[i][j]+ 0.01f;
             if (terrain2D[i][j + 1] >= offset && terrain2D[i][j - 1] >= offset && terrain2D[i + 1][j] >= offset && terrain2D[i - 1][j] >= offset &&
             terrain2D[i-1][j + 1] >= offset && terrain2D[i-1][j - 1] >= offset && terrain2D[i + 1][j+1] >= offset && terrain2D[i+1][j-1] >= offset) {
              //everything surrounding ij is above offset return.

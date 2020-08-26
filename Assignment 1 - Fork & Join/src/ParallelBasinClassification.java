@@ -8,7 +8,7 @@ public class ParallelBasinClassification extends RecursiveAction {
     int lo;
     int hi;
     Float[][] terrain2D;
-    static final int SEQUENTIAL_CUTOFF = 256;
+    static final int SEQUENTIAL_CUTOFF = 2048;
     static long t0,t1; //Timing constants
 
     ParallelBasinClassification(Float[][] terrain2D, int lo, int hi) {
