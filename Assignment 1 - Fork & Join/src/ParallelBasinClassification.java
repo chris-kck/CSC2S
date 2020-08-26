@@ -17,22 +17,17 @@ public class ParallelBasinClassification extends RecursiveAction {
 
 
     @Override
-    protected void compute() { // modify linked list answers
-
-        if (hi - lo < SEQUENTIAL_CUTOFF) { //base sequential case
-            //check for basins and append to arrlist
-            //int ans = 0; //create a small arrlist
+    protected void compute() {
+        //base sequential case: if below threshold check_neighbours sequentially
+        if (hi - lo < SEQUENTIAL_CUTOFF) {
             for(int i=lo; i < hi; i++) { //process rows
                 for (int j = 0; j < terrain2D[i].length; j++) {
                     int[] coordinate = BasinClassification.check_neighbours(terrain2D, i, j);
                     if (coordinate != null) {
-                       BasinClassification.parallelBasins.add(coordinate); //Add results of each found basin to same arraylist
+                       BasinClassification.parallelBasins.add(coordinate); //Append found basins to parallelBasins
                     }
                 }
             }
-            //BasinClassification.check_basins(terrain2D); //hope results are all appended at threads process
-            //call clasify/checkbasins//check if arrlist is being appended
-            //}
         } else {
             ParallelBasinClassification left = new ParallelBasinClassification(terrain2D, lo, (hi + lo) / 2);
             ParallelBasinClassification right = new ParallelBasinClassification(terrain2D, (hi + lo) / 2, hi);
@@ -58,8 +53,3 @@ public class ParallelBasinClassification extends RecursiveAction {
     }
 
 }
-
-    //implementation
-    //threshold
-    //if below threshold check_basins sequentially - imported
-    //either merge 2 arraylists / parallilism acceses same list and appends dynamically.
