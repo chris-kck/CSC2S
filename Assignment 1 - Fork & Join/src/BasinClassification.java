@@ -4,6 +4,8 @@ import java.util.LinkedList;
 public class BasinClassification {
     static int j =0;
     static Float[][] terrain2D;
+    static LinkedList<int[]> parallelBasins = new LinkedList<>();
+
     public static Float[][] formulateArray (String[] args) {
         String line;
         int lineNo = 0,numrows=0,numcolumns=0;
