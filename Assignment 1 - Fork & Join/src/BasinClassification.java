@@ -3,8 +3,8 @@ import java.util.LinkedList;
 
 public class BasinClassification {
     static int j =0;
-
-    public static void main (String[] args) {
+    static Float[][] terrain2D;
+    public static Float[][] formulateArray (String[] args) {
         String line;
         int lineNo = 0,numrows=0,numcolumns=0;
 
@@ -21,7 +21,7 @@ public class BasinClassification {
                     numcolumns = Integer.parseInt(line.split(" ")[1]);
                     
                 }
-                Float[][] terrain2D = new Float[numrows][numcolumns];
+                terrain2D = new Float[numrows][numcolumns];
                 if (1 == lineNo) {
                     //rows and columns data, generate 2D array O(n^2) :(
                     String[] temp = line.split(" ");
@@ -32,17 +32,22 @@ public class BasinClassification {
 
                         }
                     }
-                    check_basins(terrain2D);
+
                 }
                 lineNo++;
-                //checks and prints/generates required output
 
             }
-
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return terrain2D;
+    }
+
+
+    public static void main(String[] args){
+        formulateArray(args); //creates array from data
+        check_basins(terrain2D); //checks and prints/generates required output
     }
 
     public static void check_basins(Float[][] terrain2D){
