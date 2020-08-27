@@ -3,12 +3,32 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Locale;
 
+/**
+ * <h1><b>BasinClassification</b></h1>
+ * Sequential program of basin classification.
+ * The BasinClassification program implements an application that
+ * reads data from an input-supplied file and stores it in a
+ * 2D array. It has a method which classifies points whether
+ * or not they are basins, then outputs the total and the list of
+ * to a supplied filename.
+ * <br><hr>
+ *
+ * @author  Chris Kateera
+ * @version 1.0
+ * @since   27-08-2020
+ */
+
 public class BasinClassification {
     static int noBasins =0;
     static Float[][] terrain2D;
     static Boolean[][] sequentialBasins, parallelBasins;
     static long t0,t1; //Timing constants
 
+    /**
+     *2D array Formulation method that reads from a given file.
+     * @param args arguments for file to be read.
+     * @return a 2D float array with altitude data.
+     */
     public static Float[][] formulateArray (String[] args) {
         int numrows,numcolumns;
         try {
@@ -37,6 +57,11 @@ public class BasinClassification {
         return terrain2D;
     }
 
+    /**
+     *Main program entry point
+     * @param args arguments entered by user
+     * @exception IOException If file creating was not completed.
+     */
     public static void main(String[] args){
         formulateArray(args); //creates array from data
         for (int i = 0; i < 50; i++) {
@@ -65,6 +90,10 @@ public class BasinClassification {
 
     }
 
+    /**
+     *A method that checks for basins in a given array.
+     * @param terrain2D a 2D array with altitudes to be checked.
+     */
     public static void check_basins(Float[][] terrain2D){
         //skip checking edge top, bottom, left, right coordinates.
         System.gc();
@@ -83,6 +112,14 @@ public class BasinClassification {
         t1=System.nanoTime(); //currentTimeMillis();
     }
 
+    /**
+     *
+     * @param terrain2D 2D array whose surrounding points are to be compared with
+     * @param i row index
+     * @param j column index
+     * @return boolean value indicating whether a point is a basin.
+     * @exception ArrayIndexOutOfBoundsException thrown and caught when index to be checked is out of bounds.
+     */
     public static boolean check_neighbours(Float[][] terrain2D, int i ,int j){
 
         try {
