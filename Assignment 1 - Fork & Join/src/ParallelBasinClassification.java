@@ -24,7 +24,7 @@ public class ParallelBasinClassification extends RecursiveAction {
     int lo;
     int hi;
     Float[][] terrain2D;
-    static final int SEQUENTIAL_CUTOFF = 2048;
+    static final int SEQUENTIAL_CUTOFF = 2;
     static long t0,t1; //Timing constants
 
     /**
@@ -70,7 +70,7 @@ public class ParallelBasinClassification extends RecursiveAction {
     public static void main(String[] args) {
         Float[][] ogTerrain2D = BasinClassification.formulateArray(args);
         ForkJoinPool pool = new ForkJoinPool();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 1; i++) {
             ParallelBasinClassification task = new ParallelBasinClassification(ogTerrain2D, 0, (ogTerrain2D.length - 1));
             System.gc();
             t0 = System.nanoTime();

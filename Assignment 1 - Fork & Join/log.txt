@@ -1,0 +1,149 @@
+commit c061645594c0f2986b09ab12c9091b7a7dd79586
+Author: Kudzai Kateera <ktrkud001@myuct.ac.za>
+Date:   Thu Aug 27 00:16:44 2020 +0200
+
+    Explicitly spicify locale
+
+commit e64bd37a895834645eb5136759a7a54233d6826b
+Author: Chris Kateera <kckateera@gmail.com>
+Date:   Wed Aug 26 23:57:56 2020 +0200
+
+    Update README.md
+
+commit 33cf10c5fe7a99acf7bf3e428a985971b8c1d550
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 23:56:19 2020 +0200
+
+    Ignore javadocs
+
+commit 318b3326b860b03c780adc00b6f1c849d6a0e313
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 23:54:38 2020 +0200
+
+    Update code
+
+commit dc6efbf0a41b1d962ea6dddb04c374cc6d97a864
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 23:52:31 2020 +0200
+
+    remove ignored folder
+
+commit 383c6800502065579ba368d20edaa2675044e971
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 23:48:41 2020 +0200
+
+    remove output folders
+
+commit 286f6e212ac79fa96681f71a953d838236d9fcd8
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 21:22:17 2020 +0200
+
+    Refactor code
+
+commit d8253aa4bdb666818f217b0e0e8279960cdaaea6
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 21:21:45 2020 +0200
+
+    Switch to System.nanoTime() for precision timing
+
+commit fa921a4ce7c4b95e997b44a73101328013b75246
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 19:35:06 2020 +0200
+
+    Implement writing to file
+
+commit e25c16a6e5399b9fa35c60aa2f6a0a215c12211b
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 19:34:47 2020 +0200
+
+    Change file reading implementation from Buffer reader to scanner
+
+commit bb686a4d4f00c53cce80a1fd6e893cc418c888a9
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 16:21:47 2020 +0200
+
+    Update code to loop and add timer
+
+commit 778900d19f2cd7e5ada6d2579fb50e663ce30f0f
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 15:32:25 2020 +0200
+
+    Comment on steps taken
+
+commit f724278f0fd1ed7a11be0f276af4221c22cab094
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 15:31:31 2020 +0200
+
+    Add program classification timing
+
+commit 423a9fa211d840cf2c6607fdc765ba002b268947
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 15:03:21 2020 +0200
+
+    Add classification methods, comment code
+
+commit 3b15a8094189626d99eade1c352d5cc255e052f3
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 15:01:54 2020 +0200
+
+    Add linked list for parallel class.
+
+commit 8ddec4e96e78b6e45ed1bf9b851f206a1e5eb1fd
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 13:38:40 2020 +0200
+
+    Modularize formulation of array
+
+commit 4150536a392c62166988faa8b38e5b2772b17c82
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Wed Aug 26 13:04:18 2020 +0200
+
+    Implement parallel version of program
+
+commit 42626a64ce7a0d55f5a741327a7effe3da293c2c
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Tue Aug 25 14:03:36 2020 +0200
+
+    Use floats for comparisons instead of Doubles. Comment
+
+commit b15bbfd211de69df3be10ab43ec562fe1544efca
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Tue Aug 25 11:07:30 2020 +0200
+
+    Correct temp array iteration bug
+
+commit 6891f4a6da53275064a5603956a9bffd700bf9d7
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Tue Aug 25 08:54:06 2020 +0200
+
+    Update check_basins
+
+commit 0b3fed6531799299710c427179f9ad0af202eb46
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Tue Aug 25 08:15:24 2020 +0200
+
+    Add main, check_basins and check_neighbours functions
+
+commit e0feba5479ff9342394417f1bdc1881ef2f8bdab
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Tue Aug 25 08:14:21 2020 +0200
+
+    Add Sample in/out data
+
+commit 3ce38cbd6057d636288e6a785ea3155c4b821c12
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Tue Aug 25 06:28:42 2020 +0200
+
+    A1 Initial commit
+
+commit 19e04142bf37a22938933ee8147643a0a58570b6
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Sun Aug 16 18:40:51 2020 +0200
+
+    Initial Commit
+
+commit c1dcd1d7e6d5967b5f7a4852a278194633c0ba44
+Author: Chris Kay <kckateera@gmail.com>
+Date:   Sun Aug 16 18:34:36 2020 +0200
+
+    Initial Commit

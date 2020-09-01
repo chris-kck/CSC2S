@@ -64,7 +64,7 @@ public class BasinClassification {
      */
     public static void main(String[] args){
         formulateArray(args); //creates array from data
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 1; i++) {
             check_basins(terrain2D); //checks and prints/generates required output
             System.out.println((t1-t0)/1000000.0 );
         }
