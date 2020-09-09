@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import java.awt.BorderLayout;
 
 public class Flow {
@@ -68,6 +71,17 @@ public class Flow {
 				//frame.dispose();
 			}
 		});
+
+		frame.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Testing click at X:"+e.getX() +" Y:"+e.getY() );
+				System.out.println(frame.getGraphics());
+
+				//System.exit(0);
+
+			}
+		});
+
 		
 		b.add(endB);
 		b.add(resetB);
