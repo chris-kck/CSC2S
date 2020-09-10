@@ -8,8 +8,11 @@ import java.util.Scanner;
 public class Terrain {
 
 	float [][] height; // regular grid of height values
+	Water [][] waterData; //Array containing water objects for each pixel.
+
 	int dimx, dimy; // data dimensions
 	BufferedImage img; // greyscale image for displaying the terrain top-down
+	BufferedImage Wimg; // greyscale image for displaying the water top-down
 
 	ArrayList<Integer> permute;	// permuted list of integers in range [0, dimx*dimy)
 	
@@ -31,6 +34,10 @@ public class Terrain {
 	// get greyscale image
 	public BufferedImage getImage() {
 		  return img;
+	}
+
+	public BufferedImage getWimage() {
+		return Wimg;
 	}
 	
 	// convert linear position into 2D location in grid
@@ -64,6 +71,31 @@ public class Terrain {
 				 img.setRGB(x, y, col.getRGB());
 			}
 	}
+
+	void deriveWimage() {
+		Wimg = new BufferedImage(dimy, dimx, BufferedImage.TYPE_INT_ARGB);
+		for(int x=0; x < dimx; x++)
+			for(int y=0; y < dimy; y++) {
+				// find normalized height value in range
+				try {
+
+
+				if (waterData[x][y].wSurface>0) { //access array with water data and do comparisons.
+					//Wimg.setRGB(x, y, Color.BLUE.getRGB() );
+					//Add colour to 3x3 for it to be visible. ** check 4 out of bounds.
+					for (int s = -3; s <= 3; s++)
+						for (int t = -3; t <= 3; t++) {
+							Wimg.setRGB(x + s, y + t, Color.BLUE.getRGB());
+						}
+				}
+				}
+				catch (ArrayIndexOutOfBoundsException e){
+					continue;
+					}
+				}
+			}
+
+
 	
 	// generate a permuted list of linear index positions to allow a random
 	// traversal over the terrain
@@ -91,13 +123,17 @@ public class Terrain {
 			dimy = sc.nextInt(); 
 			dimx = sc.nextInt();
 			
-			// populate height grid
+			// populate height grid & waterData grid
 			height = new float[dimx][dimy];
+			waterData = new Water[dimx][dimy]; //instantiate WaterData array
 			
 			for(int y = 0; y < dimy; y++){
-				for(int x = 0; x < dimx; x++)	
+				for(int x = 0; x < dimx; x++) {
 					height[x][y] = sc.nextFloat();
+					waterData[x][y] = new Water(0, 0); //create new water object at this position.
+					}
 				}
+			//waterData[50][50].wSurface=0.05f; //i can see this on the diagram overlaid.s
 				
 			sc.close(); 
 			
@@ -106,6 +142,7 @@ public class Terrain {
 			
 			// generate greyscale height field image
 			deriveImage();
+			deriveWimage(); //Place somewhere else where it is called each time step post synchronizatuion of water array method traversal.
 		} 
 		catch (IOException e){ 
 			System.out.println("Unable to open input file "+fileName);
