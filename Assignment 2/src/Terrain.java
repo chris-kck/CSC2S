@@ -79,14 +79,9 @@ public class Terrain {
 				// find normalized height value in range
 				try {
 
-
 				if (waterData[x][y].wSurface>0) { //access array with water data and do comparisons.
-					//Wimg.setRGB(x, y, Color.BLUE.getRGB() );
+					Wimg.setRGB(x, y, Color.BLUE.getRGB() );
 					//Add colour to 3x3 for it to be visible. ** check 4 out of bounds.
-					for (int s = -3; s <= 3; s++)
-						for (int t = -3; t <= 3; t++) {
-							Wimg.setRGB(x + s, y + t, Color.BLUE.getRGB());
-						}
 				}
 				}
 				catch (ArrayIndexOutOfBoundsException e){
