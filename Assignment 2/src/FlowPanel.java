@@ -46,6 +46,10 @@ public class FlowPanel extends JPanel implements Runnable {
 		// display loop here
 		// to do: this should be controlled by the GUI
 		// to allow stopping and starting
-	    repaint();
+		int i = 0;
+		while (true) {
+			System.out.println(i++);
+			repaint();
+		}
 	}
 }
