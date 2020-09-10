@@ -74,7 +74,14 @@ public class Flow {
 		frame.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Testing click at X:"+e.getX() +" Y:"+e.getY() );
-				landdata.waterData[e.getX()][e.getY()-30].wSurface+=3.0f; //Adding water to point after click 3u. 0.01u transferred.
+				int Xcood = e.getX();
+				int Ycood = e.getY()-30;
+				for (int s = -3; s <= 3; s++)
+					for (int t = -3; t <= 3; t++) {
+						landdata.waterData[Xcood+s][Ycood+t].wSurface+=3.0f; //Adding water to point after click 3u. 0.01u transferred.
+					}
+
+
 				//Trying to repaint new graphic with water added but failing!//
 				//is grid for img only or drop spreads on it? leaned on latter.
 
