@@ -50,12 +50,26 @@ public class Flow {
 			public void actionPerformed(ActionEvent e){
 				// to do ask threads to stop
 				frame.dispose();
+				System.exit(0);
 			}
 		});
 		resetB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				// to do ask threads to stop
-				//frame.dispose();
+
+				//clear all water
+				for (Water[] wd: landdata.waterData)
+					for (Water WS: wd) {
+					WS.wSurface=0;
+					}
+
+				//generate updated WaterImage
+				landdata.deriveWimage();
+				//get graphic and draw image then repaint
+				fp.getGraphics().drawImage(landdata.getWimage(), 0, 0, null);
+				//repaint
+				fp.repaint();
+
 			}
 		});
 		pauseB.addActionListener(new ActionListener(){
