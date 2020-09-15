@@ -50,7 +50,7 @@ public class Terrain {
 	// convert height values to greyscale colour and populate an image
 	void deriveImage()
 	{
-		img = new BufferedImage(dimy, dimx, BufferedImage.TYPE_INT_ARGB);
+		img = new BufferedImage(dimx, dimy, BufferedImage.TYPE_INT_ARGB);
 		float maxh = -10000.0f, minh = 10000.0f;
 		
 		// determine range of heights
@@ -73,20 +73,15 @@ public class Terrain {
 	}
 
 	void deriveWimage() {
-		Wimg = new BufferedImage(dimy, dimx, BufferedImage.TYPE_INT_ARGB);
+		Wimg = new BufferedImage(dimx, dimy, BufferedImage.TYPE_INT_ARGB);
 		for(int x=0; x < dimx; x++)
 			for(int y=0; y < dimy; y++) {
-				// find normalized height value in range
-				try {
 
 				if (waterData[x][y].wSurface>0) { //access array with water data and do comparisons.
 					Wimg.setRGB(x, y, Color.BLUE.getRGB() );
 					//Add colour to 3x3 for it to be visible. ** check 4 out of bounds.
 				}
-				}
-				catch (ArrayIndexOutOfBoundsException e){
-					continue;
-					}
+
 				}
 			}
 

@@ -55,8 +55,9 @@ public class Flow {
 		});
 		resetB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do ask threads to stop
-
+				//TODO reset counter on gui.
+				//TODO If edge position, set water to zero when looping.
+				//TODO comparisons: check for lower and store as lowest, compare lower to lowers and set. ####lowest = lower.wSurface<lowest.wSurface ? lower :lowest;
 				//clear all water
 				for (Water[] wd: landdata.waterData)
 					for (Water WS: wd) {
@@ -74,14 +75,12 @@ public class Flow {
 		});
 		pauseB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do ask threads to stop
-				//frame.dispose();
+				//snapshot of window. pause regeneration of images & tranfer of water.
 			}
 		});
 		playB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do ask threads to stop
-				//frame.dispose();
+				//continue waterflow simulation after pause.
 			}
 		});
 
@@ -90,10 +89,18 @@ public class Flow {
 				System.out.println("Testing click at X:"+e.getX() +" Y:"+e.getY() );
 				int Xcood = e.getX();
 				int Ycood = e.getY()-30;
-				for (int s = -3; s <= 3; s++)
-					for (int t = -3; t <= 3; t++) {
-						landdata.waterData[Xcood+s][Ycood+t].wSurface+=3.0f; //Adding water to point after click 3u. 0.01u transferred.
-					}
+
+					for (int s = -3; s <= 3; s++)
+						for (int t = -3; t <= 3; t++) {
+							try {
+								landdata.waterData[Xcood + s][Ycood + t].wSurface += 0.03f; //Adding water to point after click 3u. 0.01u transferred.
+							}
+							catch (ArrayIndexOutOfBoundsException error){
+								continue;
+							}
+						}
+
+
 
 
 				//Trying to repaint new graphic with water added but failing!//
