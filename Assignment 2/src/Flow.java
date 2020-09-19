@@ -138,15 +138,15 @@ public class Flow {
 							int[] lowest = getLowest(landdata, x, y); //returns the lowest surrounding point[] given an index
 
 							//TODO if lowest[0]==x && lowest[1]==y then no water transfer. no decrease depth
-							if (lowest[0]==x && lowest[1]==y){
-								continue;
-							}
+							if (lowest[0]==x && lowest[1]==y)continue;
 							else{
 								landdata.waterData[lowest[0]][lowest[1]].changeDepth(-0.01f);//remove water
 								//TODO Store lowest coordinate to get water stored.
+
+								//TODO Transfer water to lowest neighbour. SEPERATELY after collecting neighbours.
 							}
 
-							//TODO Transfer water to lowest neighbour. -SEPERATELY after collecting neighbours.
+
 						}
 
 						//(x=0, y=0, x=dimx-1, and y=dimy-1)
