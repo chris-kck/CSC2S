@@ -124,27 +124,50 @@ public class Flow {
 
 				//Loop through waterData and do comparisons.
 
-				for (int x = 0; x < landdata.dimx; x++)
+				for (int x = 0; x < landdata.dimx; x++) {
+					//potentially buggy x,y dims
+					landdata.waterData[0][x].removeDepth();//top edge
+					landdata.waterData[x][0].removeDepth();//left edge
+					landdata.waterData[landdata.dimy-1][x].removeDepth();//bottom edge
+					landdata.waterData[x][landdata.dimx-1].removeDepth();//right row
+
 					for (int y = 0; y < landdata.dimy; y++) {
-						if (landdata.waterData[x][y].wDepth>0) {
+
+
+						if (landdata.waterData[x][y].wDepth > 0) {
 							int[] lowest = getLowest(landdata, x, y); //returns the lowest surrounding point[] given an index
+
+							//TODO if lowest[0]==x && lowest[1]==y then no water transfer. no decrease depth
+							if (lowest[0]==x && lowest[1]==y){
+								continue;
+							}
+							else{
+								landdata.waterData[lowest[0]][lowest[1]].changeDepth(-0.01f);//remove water
+								//TODO Store lowest coordinate to get water stored.
+							}
+
+							//TODO Transfer water to lowest neighbour. -SEPERATELY after collecting neighbours.
 						}
+
+						//(x=0, y=0, x=dimx-1, and y=dimy-1)
+
 					}
 
+				}
 			}
 		});
 		frame.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 
-				int Xcood = e.getX()-9;
-				int Ycood = e.getY()-32;
+				int Xcood = e.getX()-8;
+				int Ycood = e.getY()-31;
 				System.out.println("Testing click at X:"+Xcood +" Y:"+Ycood );
 
 					for (int s = -3; s <= 3; s++)
 						for (int t = -3; t <= 3; t++) {
 							try {
-								landdata.waterData[Xcood + s][Ycood + t].wDepth += 0.03f; //Adding water to point after click 3u. 0.01u transferred.
-								landdata.waterData[Xcood + s][Ycood + t].wSurface += 0.03f;
+								landdata.waterData[Xcood + s][Ycood + t].changeDepth(+0.03f); // Adding water to point after click 3u. 0.01u transferred.
+								//landdata.waterData[Xcood + s][Ycood + t].wSurface += 0.03f;
 							}
 							catch (ArrayIndexOutOfBoundsException error){
 								continue;
