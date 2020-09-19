@@ -10,7 +10,14 @@ public class Water {
         //wS = wD + tH
     }
 
-    public void increaseDepth (){
-        this.wSurface++; //increasing depth also increases surface
+    public void changeDepth (float drop){
+        this.wDepth+=drop;
+        this.wSurface= this.wDepth + this.tHeight; //increasing depth also increases surface
+    }
+
+
+    public void removeDepth (){
+        this.wDepth=0;
+        this.wSurface = this.tHeight;
     }
 }
