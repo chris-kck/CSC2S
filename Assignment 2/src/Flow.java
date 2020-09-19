@@ -15,6 +15,8 @@ public class Flow {
 	static FlowPanel fp;
 	public static int iterations;
 	public static JPanel b;
+	static Stack<int[]> stackR = new Stack<>();
+	static Stack<int[]> stackA = new Stack<>();
 
 	// start timer
 	private static void tick(){
@@ -122,13 +124,12 @@ public class Flow {
 
 				//set edges to zero in seperate loop or have a if statemen when transfering water to set edge to 0.
 				//(x=0, y=0, x=dimx-1, and y=dimy-1)
-				Stack<int[]> stackR = new Stack<>();
-				Stack<int[]> stackA = new Stack<>();
+
 
 
 				//Loop through waterData and do comparisons.
 				for (int x = 0; x < landdata.dimx; x++) {
-					//potentially buggy x,y dims
+					//potentially buggy x,y dims - //(x=0, y=0, x=dimx-1, and y=dimy-1)
 					landdata.waterData[0][x].removeDepth();//top edge
 					landdata.waterData[x][0].removeDepth();//left edge
 					landdata.waterData[landdata.dimy-1][x].removeDepth();//bottom edge
@@ -137,7 +138,6 @@ public class Flow {
 					for (int y = 0; y < landdata.dimy; y++) {
 						if (landdata.waterData[x][y].wDepth > 0) {
 							int[] lowest = getLowest(landdata, x, y); //returns the lowest surrounding point[] given an index
-
 							//TODO if lowest[0]==x && lowest[1]==y then no water transfer. no decrease depth
 							if (lowest[0]==x && lowest[1]==y)continue;
 							else{
@@ -147,14 +147,8 @@ public class Flow {
 								stackA.add(lowest); //water to be added
 								//TODO Transfer water to lowest neighbour. SEPERATELY after collecting neighbours.
 							}
-
-
 						}
-
-						//(x=0, y=0, x=dimx-1, and y=dimy-1)
-
 					}
-
 				}
 				while (stackA.size()>0){
 					int[] k =stackA.pop();
