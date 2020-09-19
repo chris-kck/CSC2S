@@ -1,5 +1,6 @@
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import java.awt.Component;
+import javax.swing.*;
 
 public class FlowPanel extends JPanel implements Runnable {
 	Terrain land;
@@ -32,24 +33,24 @@ public class FlowPanel extends JPanel implements Runnable {
 			//create a new getWaterImage method that paints water.
 		}
 
-		/*
-		Graphics2D g2d = (Graphics2D) g.create();
-		g2d.setColor(Color.BLUE);
-		g2d.setComposite(AlphaComposite.SrcOver.derive(0.5f));
-		g2d.fillOval(1,30,30,30);
-		g2d.fill(new Rectangle(0, 0, getWidth()-30, getHeight()));
-		g2d.dispose();
-		*/
+
 	}
 	
 	public void run() {	
 		// display loop here
 		// to do: this should be controlled by the GUI
 		// to allow stopping and starting
+
+		/*
+		I’d suggest creating and starting the threads separately, when your program is launched, and simply using the Boolean variable to control play and pause
+		loop inside
+		use a volatile boolean as a flag
+		the changing; of the status is done by your buttons*/
 		int i = 0;
-		while (true) {
-			System.out.println(i++);
+		while (i++<20000) {
+			Flow.updateTimeSteps(); //increments Flow.iterations each time its called
 			repaint();
+
 		}
 	}
 }

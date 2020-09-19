@@ -12,6 +12,9 @@ public class Flow {
 	static int frameX;
 	static int frameY;
 	static FlowPanel fp;
+	public static int iterations;
+	public static JLabel steps;
+	public static JPanel b;
 
 	// start timer
 	private static void tick(){
@@ -22,7 +25,14 @@ public class Flow {
 	private static float tock(){
 		return (System.currentTimeMillis() - startTime) / 1000.0f; 
 	}
-	
+
+
+	public static void updateTimeSteps(){
+		JLabel k = (JLabel)Flow.b.getComponents()[4];
+		k.setText("\t \t \t Time Steps: " + iterations++);
+	}
+
+
 	public static void setupGUI(int frameX,int frameY,Terrain landdata) {
 		
 		Dimension fsize = new Dimension(800, 800);
@@ -39,12 +49,13 @@ public class Flow {
 	    
 		// to do: add a MouseListener, buttons and ActionListeners on those buttons
 	   	
-		JPanel b = new JPanel();
+		b = new JPanel();
 	    b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS));
 		JButton resetB = new JButton("Reset");
 		JButton pauseB = new JButton("Pause");
 		JButton playB = new JButton("Play");
 		JButton endB = new JButton("End");
+		steps = new JLabel("Steps: 0");
 		// add the listener to the jbutton to handle the "pressed" event
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -70,6 +81,9 @@ public class Flow {
 				fp.getGraphics().drawImage(landdata.getWimage(), 0, 0, null);
 				//repaint
 				fp.repaint();
+
+				iterations=0;
+				updateTimeSteps();
 
 			}
 		});
@@ -100,12 +114,6 @@ public class Flow {
 							}
 						}
 
-
-
-
-				//Trying to repaint new graphic with water added but failing!//
-				//is grid for img only or drop spreads on it? leaned on latter.
-
 				//generate updated WaterImage
 				landdata.deriveWimage();
 
@@ -124,6 +132,9 @@ public class Flow {
 		b.add(resetB);
 		b.add(pauseB);
 		b.add(playB);
+		b.add(steps);
+
+		//add panel to frame
 		g.add(b);
     	
 		frame.setSize(frameX, frameY+50);	// a little extra space at the bottom for buttons
