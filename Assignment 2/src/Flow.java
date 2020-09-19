@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.BorderLayout;
+import java.util.Stack;
 
 public class Flow {
 	static long startTime = 0;
@@ -121,9 +122,11 @@ public class Flow {
 
 				//set edges to zero in seperate loop or have a if statemen when transfering water to set edge to 0.
 				//(x=0, y=0, x=dimx-1, and y=dimy-1)
+				Stack<int[]> stackR = new Stack<>();
+				Stack<int[]> stackA = new Stack<>();
+
 
 				//Loop through waterData and do comparisons.
-
 				for (int x = 0; x < landdata.dimx; x++) {
 					//potentially buggy x,y dims
 					landdata.waterData[0][x].removeDepth();//top edge
@@ -132,17 +135,16 @@ public class Flow {
 					landdata.waterData[x][landdata.dimx-1].removeDepth();//right row
 
 					for (int y = 0; y < landdata.dimy; y++) {
-
-
 						if (landdata.waterData[x][y].wDepth > 0) {
 							int[] lowest = getLowest(landdata, x, y); //returns the lowest surrounding point[] given an index
 
 							//TODO if lowest[0]==x && lowest[1]==y then no water transfer. no decrease depth
 							if (lowest[0]==x && lowest[1]==y)continue;
 							else{
-								landdata.waterData[lowest[0]][lowest[1]].changeDepth(-0.01f);//remove water
+								//landdata.waterData[x][y].changeDepth(-0.01f);//remove water
+								stackR.add(new int[] {x,y}); //water to be removed
 								//TODO Store lowest coordinate to get water stored.
-
+								stackA.add(lowest); //water to be added
 								//TODO Transfer water to lowest neighbour. SEPERATELY after collecting neighbours.
 							}
 
@@ -154,7 +156,23 @@ public class Flow {
 					}
 
 				}
-			}
+				while (stackA.size()>0){
+					int[] k =stackA.pop();
+					landdata.waterData[k[0]][k[1]].changeDepth(+0.01f);
+				}
+				while (stackR.size()>0){
+					int[] k =stackR.pop();
+					landdata.waterData[k[0]][k[1]].changeDepth(-0.01f);
+				}
+
+				landdata.deriveWimage();
+				//get graphic and draw image then repaint
+				fp.getGraphics().drawImage(landdata.getWimage(), 0, 0, null);
+				//repaint
+				fp.repaint();
+
+				}
+
 		});
 		frame.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
