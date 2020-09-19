@@ -14,7 +14,6 @@ public class Flow {
 	static FlowPanel fp;
 	public static int iterations;
 	public static JPanel b;
-	static int [][] surroundingxy = {{-1, -1}, {0, -1}, {-1, 1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}}; //top left down
 
 	// start timer
 	private static void tick(){
@@ -30,6 +29,30 @@ public class Flow {
 	public static void updateTimeSteps(){
 		JLabel k = (JLabel)Flow.b.getComponents()[4];
 		k.setText("\t \t \t Time Steps: " + iterations++);
+	}
+
+	public static int[] getLowest(Terrain landdata, int x ,int y){
+		float currentSurface = landdata.waterData[x][y].wSurface;
+		float lowest=currentSurface;
+		int[] lowestPoint= new int[2];
+		for (int s = -1; s <= 1; s++)
+			for (int t = -1; t <= 1; t++) {
+				try {
+					int neighbourx = x + s;
+					int neighboury = y + t;
+					float neighbourSurface = landdata.waterData[neighbourx][neighboury].wSurface;
+						if (neighbourSurface < currentSurface && neighbourSurface < lowest) { //lower
+							//is it lower than what we came across?
+							lowest = neighbourSurface; //store coordinates after comparing depths.
+							lowestPoint[0] = neighbourx;
+							lowestPoint[1] = neighboury;
+						}
+				}
+				catch (ArrayIndexOutOfBoundsException error){
+					continue;
+				}
+			}
+		return lowestPoint;
 	}
 
 
@@ -93,32 +116,35 @@ public class Flow {
 			}
 		});
 		playB.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+			public void actionPerformed(ActionEvent e) {
 				//continue waterflow simulation after pause.
-
-				//surroundingxy
-				//landdata.waterData
 
 				//set edges to zero in seperate loop or have a if statemen when transfering water to set edge to 0.
 				//(x=0, y=0, x=dimx-1, and y=dimy-1)
-				for (Water[] wd: landdata.waterData)
-					for (Water WS: wd) {
-						WS.wDepth=0;
-					}
 
+				//Loop through waterData and do comparisons.
+
+				for (int x = 0; x < landdata.dimx; x++)
+					for (int y = 0; y < landdata.dimy; y++) {
+						if (landdata.waterData[x][y].wDepth>0) {
+							int[] lowest = getLowest(landdata, x, y); //returns the lowest surrounding point[] given an index
+						}
+					}
 
 			}
 		});
 		frame.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Testing click at X:"+e.getX() +" Y:"+e.getY() );
-				int Xcood = e.getX();
-				int Ycood = e.getY()-30;
+
+				int Xcood = e.getX()-9;
+				int Ycood = e.getY()-32;
+				System.out.println("Testing click at X:"+Xcood +" Y:"+Ycood );
 
 					for (int s = -3; s <= 3; s++)
 						for (int t = -3; t <= 3; t++) {
 							try {
 								landdata.waterData[Xcood + s][Ycood + t].wDepth += 0.03f; //Adding water to point after click 3u. 0.01u transferred.
+								landdata.waterData[Xcood + s][Ycood + t].wSurface += 0.03f;
 							}
 							catch (ArrayIndexOutOfBoundsException error){
 								continue;
@@ -156,8 +182,8 @@ public class Flow {
         Thread fpt = new Thread(fp);
         fpt.start();
 	}
-	
-		
+
+
 	public static void main(String[] args) {
 		Terrain landdata = new Terrain();
 		
