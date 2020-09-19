@@ -13,8 +13,8 @@ public class Flow {
 	static int frameY;
 	static FlowPanel fp;
 	public static int iterations;
-	public static JLabel steps;
 	public static JPanel b;
+	static int [][] surroundingxy = {{-1, -1}, {0, -1}, {-1, 1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}}; //top left down
 
 	// start timer
 	private static void tick(){
@@ -55,7 +55,7 @@ public class Flow {
 		JButton pauseB = new JButton("Pause");
 		JButton playB = new JButton("Play");
 		JButton endB = new JButton("End");
-		steps = new JLabel("Steps: 0");
+		JLabel steps = new JLabel("Steps: 0");
 		// add the listener to the jbutton to handle the "pressed" event
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -72,7 +72,7 @@ public class Flow {
 				//clear all water
 				for (Water[] wd: landdata.waterData)
 					for (Water WS: wd) {
-					WS.wSurface=0;
+					WS.wDepth=0;
 					}
 
 				//generate updated WaterImage
@@ -95,9 +95,20 @@ public class Flow {
 		playB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				//continue waterflow simulation after pause.
+
+				//surroundingxy
+				//landdata.waterData
+
+				//set edges to zero in seperate loop or have a if statemen when transfering water to set edge to 0.
+				//(x=0, y=0, x=dimx-1, and y=dimy-1)
+				for (Water[] wd: landdata.waterData)
+					for (Water WS: wd) {
+						WS.wDepth=0;
+					}
+
+
 			}
 		});
-
 		frame.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Testing click at X:"+e.getX() +" Y:"+e.getY() );
@@ -107,7 +118,7 @@ public class Flow {
 					for (int s = -3; s <= 3; s++)
 						for (int t = -3; t <= 3; t++) {
 							try {
-								landdata.waterData[Xcood + s][Ycood + t].wSurface += 0.03f; //Adding water to point after click 3u. 0.01u transferred.
+								landdata.waterData[Xcood + s][Ycood + t].wDepth += 0.03f; //Adding water to point after click 3u. 0.01u transferred.
 							}
 							catch (ArrayIndexOutOfBoundsException error){
 								continue;

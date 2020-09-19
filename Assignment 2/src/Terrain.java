@@ -77,7 +77,7 @@ public class Terrain {
 		for(int x=0; x < dimx; x++)
 			for(int y=0; y < dimy; y++) {
 
-				if (waterData[x][y].wSurface>0) { //access array with water data and do comparisons.
+				if (waterData[x][y].wDepth>0) { //access array with water data and do comparisons.
 					Wimg.setRGB(x, y, Color.BLUE.getRGB() );
 					//Add colour to 3x3 for it to be visible. ** check 4 out of bounds.
 				}
@@ -85,8 +85,6 @@ public class Terrain {
 				}
 			}
 
-
-	
 	// generate a permuted list of linear index positions to allow a random
 	// traversal over the terrain
 	void genPermute() {
@@ -120,7 +118,7 @@ public class Terrain {
 			for(int y = 0; y < dimy; y++){
 				for(int x = 0; x < dimx; x++) {
 					height[x][y] = sc.nextFloat();
-					waterData[x][y] = new Water(0, 0); //create new water object at this position.
+					waterData[x][y] = new Water(0, height[x][y]); //create new water object at this position.
 					}
 				}
 			//waterData[50][50].wSurface=0.05f; //i can see this on the diagram overlaid.s
