@@ -3,6 +3,7 @@ import java.awt.image.*;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Terrain {
@@ -105,6 +106,7 @@ public class Terrain {
 	void readData(String fileName){ 
 		try{ 
 			Scanner sc = new Scanner(new File(fileName));
+			sc.useLocale(Locale.ENGLISH);
 			
 			// read grid dimensions
 			// x and y correspond to columns and rows, respectively.
