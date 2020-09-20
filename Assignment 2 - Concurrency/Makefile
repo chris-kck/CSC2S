@@ -17,5 +17,5 @@ docs:
 clean:
 	$(RM) ./bin/*.class
 
-parallel:	./Flow.class
+parallel:	./bin/Flow.class
 	@java -cp ./bin Flow  $(params)
