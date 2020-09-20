@@ -1,11 +1,10 @@
 import javax.swing.*;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.BorderLayout;
 import java.util.Stack;
 
 public class Flow {
@@ -17,6 +16,7 @@ public class Flow {
 	public static JPanel b;
 	static Stack<int[]> stackR = new Stack<>();
 	static Stack<int[]> stackA = new Stack<>();
+	public static volatile boolean playing=false;
 
 	// start timer
 	private static void tick(){
@@ -28,12 +28,24 @@ public class Flow {
 		return (System.currentTimeMillis() - startTime) / 1000.0f; 
 	}
 
+	//increments Flow.iterations each time its called
 
+	/**
+	 *Update time step when a simulation iteration occurs.
+	 */
 	public static void updateTimeSteps(){
-		JLabel k = (JLabel)Flow.b.getComponents()[4];
+		Component[] a = Flow.b.getComponents();
+		JLabel k = (JLabel)a[4];
 		k.setText("\t \t \t Time Steps: " + iterations++);
 	}
 
+	/**
+	 * Method to compare surrounding points and return lowest point.
+	 * @param landdata Terrain object
+	 * @param x x coordinate of point
+	 * @param y y coordinate of point
+	 * @return an integer array with x,y of lowest surrounding point.
+	 */
 	public static int[] getLowest(Terrain landdata, int x ,int y){
 		float currentSurface = landdata.waterData[x][y].wSurface;
 		float lowest=currentSurface;
@@ -58,7 +70,55 @@ public class Flow {
 		return lowestPoint;
 	}
 
+	/**
+	 * Function to simulate and transfer water
+	 * @param landdata Terrain data object
+	 */
+	public static void simulate(Terrain landdata){
 
+
+		for (int x = 0; x < landdata.dimx; x++) {
+			//set edges to zero in seperate loop (x=0, y=0, x=dimx-1, and y=dimy-1)
+			landdata.waterData[0][x].removeDepth();//top edge
+			landdata.waterData[x][0].removeDepth();//left edge
+			landdata.waterData[landdata.dimy-1][x].removeDepth();//bottom edge
+			landdata.waterData[x][landdata.dimx-1].removeDepth();//right row
+
+			for (int y = 0; y < landdata.dimy; y++) {
+				if (landdata.waterData[x][y].wDepth > 0) {
+					int[] lowest = getLowest(landdata, x, y); //returns the lowest surrounding point[] given an index
+					if (lowest[0]==x && lowest[1]==y)continue; //Lowest same as passed point then no water transfer. no decrease depth
+					else{
+						stackR.add(new int[] {x,y}); //Store points to have water removed from them.
+						stackA.add(lowest); //Store points to have water added to them.
+
+					}
+				}
+			}
+		}
+		//Remove water from origin and transfer water to lowest neighbour
+		while (stackA.size()>0){
+			int[] k =stackA.pop();
+			landdata.waterData[k[0]][k[1]].changeDepth(+0.01f);
+		}
+		while (stackR.size()>0){
+			int[] k =stackR.pop();
+			landdata.waterData[k[0]][k[1]].changeDepth(-0.01f);
+		}
+
+		landdata.deriveWimage();
+		//get graphic and draw image then repaint
+		fp.getGraphics().drawImage(landdata.getWimage(), 0, 0, null);
+		fp.repaint();
+		updateTimeSteps();
+	}
+
+	/**
+	 * Setup Graphic user interface and action listeners.
+	 * @param frameX X dimension of frame dependent on grid size
+	 * @param frameY Y dimension of frame dependent on grid size
+	 * @param landdata Terrain data
+	 */
 	public static void setupGUI(int frameX,int frameY,Terrain landdata) {
 		
 		Dimension fsize = new Dimension(800, 800);
@@ -95,6 +155,7 @@ public class Flow {
 				//TODO reset counter on gui.
 				//TODO If edge position, set water to zero when looping.
 				//TODO comparisons: check for lower and store as lowest, compare lower to lowers and set. ####lowest = lower.wSurface<lowest.wSurface ? lower :lowest;
+				playing=false;
 				//clear all water
 				for (Water[] wd: landdata.waterData)
 					for (Water WS: wd) {
@@ -116,54 +177,14 @@ public class Flow {
 		pauseB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				//snapshot of window. pause regeneration of images & tranfer of water.
+				playing=false;
 			}
 		});
 		playB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//continue waterflow simulation after pause.
-
-				//set edges to zero in seperate loop or have a if statemen when transfering water to set edge to 0.
-				//(x=0, y=0, x=dimx-1, and y=dimy-1)
-
-
-
-				//Loop through waterData and do comparisons.
-				for (int x = 0; x < landdata.dimx; x++) {
-					//potentially buggy x,y dims - //(x=0, y=0, x=dimx-1, and y=dimy-1)
-					landdata.waterData[0][x].removeDepth();//top edge
-					landdata.waterData[x][0].removeDepth();//left edge
-					landdata.waterData[landdata.dimy-1][x].removeDepth();//bottom edge
-					landdata.waterData[x][landdata.dimx-1].removeDepth();//right row
-
-					for (int y = 0; y < landdata.dimy; y++) {
-						if (landdata.waterData[x][y].wDepth > 0) {
-							int[] lowest = getLowest(landdata, x, y); //returns the lowest surrounding point[] given an index
-							//TODO if lowest[0]==x && lowest[1]==y then no water transfer. no decrease depth
-							if (lowest[0]==x && lowest[1]==y)continue;
-							else{
-								//landdata.waterData[x][y].changeDepth(-0.01f);//remove water
-								stackR.add(new int[] {x,y}); //water to be removed
-								//TODO Store lowest coordinate to get water stored.
-								stackA.add(lowest); //water to be added
-								//TODO Transfer water to lowest neighbour. SEPERATELY after collecting neighbours.
-							}
-						}
-					}
-				}
-				while (stackA.size()>0){
-					int[] k =stackA.pop();
-					landdata.waterData[k[0]][k[1]].changeDepth(+0.01f);
-				}
-				while (stackR.size()>0){
-					int[] k =stackR.pop();
-					landdata.waterData[k[0]][k[1]].changeDepth(-0.01f);
-				}
-
-				landdata.deriveWimage();
-				//get graphic and draw image then repaint
-				fp.getGraphics().drawImage(landdata.getWimage(), 0, 0, null);
-				//repaint
-				fp.repaint();
+				playing=true;
+				//simulate(landdata);
 
 				}
 
@@ -218,7 +239,10 @@ public class Flow {
         fpt.start();
 	}
 
-
+	/**
+	 * Main thread of execution
+	 * @param args args[0] contains name of terrain file passed on the command line.
+	 */
 	public static void main(String[] args) {
 		Terrain landdata = new Terrain();
 		

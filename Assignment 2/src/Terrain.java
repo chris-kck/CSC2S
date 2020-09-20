@@ -72,6 +72,9 @@ public class Terrain {
 			}
 	}
 
+	/**
+	 * Function to derive water image from location of water
+	 */
 	void deriveWimage() {
 		Wimg = new BufferedImage(dimx, dimy, BufferedImage.TYPE_INT_ARGB);
 		for(int x=0; x < dimx; x++)
@@ -85,8 +88,7 @@ public class Terrain {
 				}
 			}
 
-	// generate a permuted list of linear index positions to allow a random
-	// traversal over the terrain
+	// generate a permuted list of linear index positions to allow a random traversal over the terrain
 	void genPermute() {
 		permute = new ArrayList<Integer>();
 		for(int idx = 0; idx < dim(); idx++)
@@ -94,8 +96,7 @@ public class Terrain {
 		java.util.Collections.shuffle(permute);
 	}
 	
-	// find permuted 2D location from a linear index in the
-	// range [0, dimx*dimy)
+	// find permuted 2D location from a linear index in the range [0, dimx*dimy)
 	void getPermute(int i, int [] loc) {
 		locate(permute.get(i), loc);
 	}
