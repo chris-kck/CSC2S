@@ -1,8 +1,11 @@
 import java.awt.Graphics;
+import java.util.concurrent.ForkJoinPool;
 import javax.swing.*;
 
 public class FlowPanel extends JPanel implements Runnable {
 	Terrain land;
+	public ForkJoinPool pool;
+	public ParallelWaterflow task;
 	
 	FlowPanel(Terrain terrain) {
 		land=terrain;
@@ -31,9 +34,22 @@ public class FlowPanel extends JPanel implements Runnable {
 	public void run() {
 		// GUI buttonsallow stopping and starting
 
+		pool = new ForkJoinPool();
+		task = new ParallelWaterflow(Flow.fp.land , 0, (Flow.fp.land.dimx - 1));
 		while(true){
-		while (Flow.playing) {
-			Flow.simulate(land);//repaint(); //done in simulate.
+		if(Flow.playing) {
+			//Flow.simulate(land, 0, land.dimx);//repaint(); //done in simulate.
+			ParallelWaterflow.parallelmain();
+
+			/*
+			for (int i=0; i<10;i++) {
+				int[] temp = Flow.fp.land.getPermute(i);
+				System.out.println(temp[0]+"and"+temp[1]);
+			}
+			*/
+			//TODO handle pause action
+		}
+
 		}
 		/*
 		•	All grid positions not on the boundary (//x-edges-2 y-edges-2.) are traversed in a permuted order (see the getPermute() method.
@@ -46,6 +62,6 @@ public class FlowPanel extends JPanel implements Runnable {
 
 
 
-		}
+		//}
 	}
 }
