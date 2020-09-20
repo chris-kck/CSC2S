@@ -21,7 +21,7 @@ public class ParallelWaterflow extends RecursiveAction {
 
     int lo,hi;
     Terrain land;
-    static final int SEQUENTIAL_CUTOFF = 64;
+    static final int SEQUENTIAL_CUTOFF = Flow.fp.land.dimx/4;
     static long t0,t1; //Timing constants
 
     /**
