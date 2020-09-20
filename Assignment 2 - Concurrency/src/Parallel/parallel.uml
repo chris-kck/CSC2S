@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="474.0">ParallelWaterflow</node>
+    <node x="273.0" y="474.0">Water</node>
+    <node x="244.0" y="0.0">Flow</node>
+    <node x="0.0" y="0.0">Terrain</node>
+    <node x="496.0" y="474.0">FlowPanel</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.9646153846153845" x="276.9999999999999" y="170.23125996810208" />
+  <SelectedNodes>
+    <node>ParallelWaterflow</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
