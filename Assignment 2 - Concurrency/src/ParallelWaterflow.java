@@ -77,7 +77,6 @@ public class ParallelWaterflow extends RecursiveAction {
             Flow.fp.land.waterData[j[0]][j[1]].changeDepth(-0.01f);
         }
 
-
         Flow.fp.land.deriveWimage();
         //get graphic and draw image then repaint
         Flow.fp.getGraphics().drawImage(Flow.fp.land.getWimage(), 0, 0, null);
@@ -85,7 +84,6 @@ public class ParallelWaterflow extends RecursiveAction {
         Flow.updateTimeSteps();
         t1 = System.nanoTime();
         //System.out.println((t1 - t0)/1000000.0 + "ms"); //get time in ms
-        //Flow.fp.land.permute;
     }
 
 }
