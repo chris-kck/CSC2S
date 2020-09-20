@@ -82,12 +82,17 @@ public class Terrain {
 			for(int y=0; y < dimy; y++) {
 
 				if (waterData[x][y].wDepth>0) { //access array with water data and do comparisons.
-					Wimg.setRGB(x, y, Color.BLUE.getRGB() );
-					//Add colour to 3x3 for it to be visible. ** check 4 out of bounds.
+					if(waterData[x][y].wDepth>=0.03f){
+						Wimg.setRGB(x, y, Color.BLUE.darker().getRGB() );//Add colour to 3x3 for it to be visible.
+					}
+					else if (waterData[x][y].wDepth<0.03f){
+						Wimg.setRGB(x, y, Color.cyan.getRGB() );//Add colour to 3x3 for it to be visible.
+					}
 				}
 
 				}
 			}
+
 
 	// generate a permuted list of linear index positions to allow a random traversal over the terrain
 	void genPermute() {
