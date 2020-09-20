@@ -32,8 +32,19 @@ public class FlowPanel extends JPanel implements Runnable {
 		// GUI buttonsallow stopping and starting
 
 		while(true){
-		while (Flow.playing) {
-			Flow.simulate(land);//repaint(); //done in simulate.
+		if(Flow.playing) {
+			//Flow.simulate(land, 0, land.dimx);//repaint(); //done in simulate.
+			ParallelWaterflow.parallelmain();
+
+			/*
+			for (int i=0; i<10;i++) {
+				int[] temp = Flow.fp.land.getPermute(i);
+				System.out.println(temp[0]+"and"+temp[1]);
+			}
+			*/
+			//TODO handle pause action
+		}
+
 		}
 		/*
 		•	All grid positions not on the boundary (//x-edges-2 y-edges-2.) are traversed in a permuted order (see the getPermute() method.
@@ -46,6 +57,6 @@ public class FlowPanel extends JPanel implements Runnable {
 
 
 
-		}
+		//}
 	}
 }

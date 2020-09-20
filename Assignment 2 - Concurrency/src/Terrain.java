@@ -103,8 +103,10 @@ public class Terrain {
 	}
 	
 	// find permuted 2D location from a linear index in the range [0, dimx*dimy)
-	void getPermute(int i, int [] loc) {
+	int[] getPermute(int i) {
+		int[] loc = new int[2];
 		locate(permute.get(i), loc);
+		return loc;
 	}
 	
 	// read in terrain from file

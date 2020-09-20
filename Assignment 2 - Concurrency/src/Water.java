@@ -12,6 +12,12 @@ public class Water {
     float wDepth;
     float wSurface;
     float tHeight;
+
+    /**
+     * Class constructor instantiating an object
+     * @param wDepth
+     * @param tHeight
+     */
     public Water (float wDepth, float tHeight){
         this.wDepth=wDepth; //initial depth
         this.tHeight=tHeight; //initial Height

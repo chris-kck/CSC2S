@@ -74,10 +74,10 @@ public class Flow {
 	 * Function to simulate and transfer water
 	 * @param landdata Terrain data object
 	 */
-	public static void simulate(Terrain landdata){
+	public static void simulate(Terrain landdata, int loIndex,int hiIndex){
 
 
-		for (int x = 0; x < landdata.dimx; x++) {
+		for (int x = loIndex; x < hiIndex ; x++) {
 			//set edges to zero in seperate loop (x=0, y=0, x=dimx-1, and y=dimy-1)
 			landdata.waterData[0][x].removeDepth();//top edge
 			landdata.waterData[x][0].removeDepth();//left edge
@@ -96,21 +96,7 @@ public class Flow {
 				}
 			}
 		}
-		//Remove water from origin and transfer water to lowest neighbour
-		while (stackA.size()>0){
-			int[] k =stackA.pop();
-			landdata.waterData[k[0]][k[1]].changeDepth(+0.01f);
-		}
-		while (stackR.size()>0){
-			int[] k =stackR.pop();
-			landdata.waterData[k[0]][k[1]].changeDepth(-0.01f);
-		}
 
-		landdata.deriveWimage();
-		//get graphic and draw image then repaint
-		fp.getGraphics().drawImage(landdata.getWimage(), 0, 0, null);
-		fp.repaint();
-		updateTimeSteps();
 	}
 
 	/**
@@ -152,9 +138,6 @@ public class Flow {
 		});
 		resetB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				//TODO reset counter on gui.
-				//TODO If edge position, set water to zero when looping.
-				//TODO comparisons: check for lower and store as lowest, compare lower to lowers and set. ####lowest = lower.wSurface<lowest.wSurface ? lower :lowest;
 				playing=false;
 				//clear all water
 				for (Water[] wd: landdata.waterData)
@@ -169,7 +152,7 @@ public class Flow {
 				//repaint
 				fp.repaint();
 
-				iterations=0;
+				iterations=0; //Reset counter on gui.
 				updateTimeSteps();
 
 			}
@@ -194,8 +177,7 @@ public class Flow {
 
 				int Xcood = e.getX()-8;
 				int Ycood = e.getY()-31;
-				System.out.println("Testing click at X:"+Xcood +" Y:"+Ycood );
-
+				//System.out.println("Testing click at X:"+Xcood +" Y:"+Ycood );
 					for (int s = -3; s <= 3; s++)
 						for (int t = -3; t <= 3; t++) {
 							try {
