@@ -82,10 +82,10 @@ public class Terrain {
 			for(int y=0; y < dimy; y++) {
 
 				if (waterData[x][y].wDepth>0) { //access array with water data and do comparisons.
-					if(waterData[x][y].wDepth>=0.03f){
+					if(waterData[x][y].wDepth>=0.02f){
 						Wimg.setRGB(x, y, Color.BLUE.darker().getRGB() );//Add colour to 3x3 for it to be visible.
 					}
-					else if (waterData[x][y].wDepth<0.03f){
+					else if (waterData[x][y].wDepth<0.02f){
 						Wimg.setRGB(x, y, Color.cyan.getRGB() );//Add colour to 3x3 for it to be visible.
 					}
 				}
